@@ -42,10 +42,32 @@ public class AutoBlueCenter extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        final int pi = 800;
+        final int a = 1000;
+        final int b = 200;
+        final int take = 1000;
+        int cameraOutcome;
         waitForStart();
-        ML.forward(1000);
-        ML.turn(400);// pi/2
-        //code
+        ML.forward(a);
+        ML.turn(pi/2);
+        int cameraOutcome;
+        //insert camera code HERE
+        if(cameraOutcome == 3)
+            ML.turn(pi/2);
+        if(cameraOutcome == 2 || cameraOutcome == 3)
+            ML.Intake(take, 0);
+        if(cameraOutcome == 1 || 2)
+            ML.turn(pi/2);
+        ML.move(-1*a,0);
+        if(cameraOutcome == 1)
+            ML.Intake(take,0);
+        //The following segment is to be INCLUDED if we start far from the backdrop, but EXCLUDED if we start near it
+        ML.forward(-2*a);
+        if(cameraOutcome == 1)
+            ML.move(b,1);
+        if(cameraOutcome == 3)
+            ML.move(-b,1);
+        //code for extending arm/opening claw here
+        //if this is the far code, do nothing. if it is the near code, either parkcenter and do nothing or parkout and move to the edge of the field.
     }
 }
