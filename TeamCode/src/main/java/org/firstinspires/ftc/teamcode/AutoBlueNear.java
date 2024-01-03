@@ -37,8 +37,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * If !ParkCenter, go backwards a-b units
  *
  */
-@Autonomous (name = "Auto Blue Center")
-public class AutoBlueCenter extends LinearOpMode {
+@Autonomous (name = "Auto Blue Near")
+public class AutoBlueNear extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -46,7 +46,7 @@ public class AutoBlueCenter extends LinearOpMode {
         final int a = 1000;
         final int b = 200;
         final int take = 1000;
-        int cameraOutcome;
+        int cameraOutcome = 0;
         waitForStart();
         ML.forward(a);
         ML.turn(pi/2);
@@ -59,7 +59,7 @@ public class AutoBlueCenter extends LinearOpMode {
         {
             ML.Intake(take);
         }
-        if(cameraOutcome == 1 || 2)
+        if(cameraOutcome == 1 || cameraOutcome == 2)
         {
             ML.turn(pi/2);
         }
@@ -69,7 +69,7 @@ public class AutoBlueCenter extends LinearOpMode {
             ML.Intake(take);
         }
         //The following segment is to be INCLUDED if we start far from the backdrop, but EXCLUDED if we start near it
-        ML.forward(-2*a);
+        /*ML.forward(-2*a);*/
         if(cameraOutcome == 1)
         {
             ML.move(b,1);
@@ -78,7 +78,9 @@ public class AutoBlueCenter extends LinearOpMode {
         {
             ML.move(-b,1);
         }
-        //code for extending arm/opening claw here
-        //if this is the far code, do nothing. if it is the near code, either parkcenter and do nothing or parkout and move to the edge of the field.
+        /** code for extending arm/opening claw here */
+        //if this is the far code, do nothing. if it is the near code, parkout and move to the edge of the field.
+        ML.turn(pi/2);
+        ML.move(a,0);
     }
 }
