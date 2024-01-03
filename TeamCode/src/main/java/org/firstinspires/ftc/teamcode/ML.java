@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class ML
 {
@@ -20,10 +21,10 @@ public class ML
     //public static DcMotor liftR;
     public static DcMotorEx arm;
     public static CRServo rotate;
-    //public static Servo clawL;
-    //public static Servo clawR;
-    //public static CRServo arm1;
-    //public static CRServo arm2;
+    public static Servo clawL;
+    public static Servo clawR;
+    public static Servo arm1;
+    public static Servo arm2;
     public static double pi = Math.PI;
     public static double π = pi;
     // π = alt + 227

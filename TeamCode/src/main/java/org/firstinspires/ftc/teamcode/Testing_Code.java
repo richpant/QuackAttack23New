@@ -61,6 +61,28 @@ public class Testing_Code extends LinearOpMode {
             else if (gamepad1.y) {
                 ML.rotate.setPower(.08);
             }
+
+            if (gamepad2.a) {
+                ML.clawL.setPosition(.7);
+            } else {
+                ML.clawL.setPosition(.3);
+            }
+            if(gamepad2.b) {
+                ML.clawR.setPosition(.7);
+            } else {
+                ML.clawR.setPosition(.3);
+            }
+
+            if (gamepad2.x) {
+                ML.arm1.setPosition(.7);
+            } else {
+                ML.arm1.setPosition(.3);
+            }
+            if (gamepad2.y) {
+                ML.arm2.setPosition(.7);
+            } else {
+                ML.arm2.setPosition(.3);
+            }
         /*
         if (gamepad1.b) {
             clawL.setPosition(.45);
