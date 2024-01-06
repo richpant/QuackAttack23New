@@ -17,8 +17,7 @@ public class ML
     public static DcMotorEx leftFront;
     public static DcMotorEx leftRear;
     public static DcMotorEx intake;
-    //public static DcMotor liftL;
-    //public static DcMotor liftR;
+    public static DcMotorEx lift;
     public static DcMotorEx arm;
     public static CRServo rotate;
     public static Servo clawL;
@@ -39,6 +38,8 @@ public class ML
         rightFront = myOpMode.hardwareMap.get(DcMotorEx.class,"rightFront");
         rightRear = myOpMode.hardwareMap.get(DcMotorEx.class,"rightRear");
         intake = myOpMode.hardwareMap.get(DcMotorEx.class,"intake");
+        lift = myOpMode.hardwareMap.get(DcMotorEx.class,"lift");
+
         arm = myOpMode.hardwareMap.get(DcMotorEx.class,"arm");
         rotate = myOpMode.hardwareMap.get(CRServo.class,"rotate");
 

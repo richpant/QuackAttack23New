@@ -35,18 +35,15 @@ public class Testing_Code extends LinearOpMode {
             } else {
                 ML.intake.setPower(0);
             }
-            /*
+
             if (gamepad1.dpad_up) {
-                liftL.setPower(.6);
-                liftR.setPower(.6);
+                ML.lift.setPower(.6);
             } else if (gamepad1.dpad_down) {
-                liftL.setPower(-.6);
-                liftR.setPower(-.6);
+                ML.lift.setPower(-.6);
             } else {
-            liftL.setPower(0);
-            liftR.setPower(0);
+            ML.lift.setPower(0);
             }
-            */
+
             if (gamepad1.a) {
                 ML.arm.setPower(1);
             } else if(gamepad1.b) {
