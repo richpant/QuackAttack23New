@@ -20,7 +20,7 @@ import java.util.TimerTask;
 
 public class ClawConverter //This will F up in jGrasp, needs to be executed in Android Studio
 {
-    ClawKin scuff = new ClawKin(/*lambda, h, dSum, Math.PI/4, forearm, clawLen*/);//PUT IN PARAMS
+    private ClawKin scuff; //= new ClawKin(/*lambda, h, dSum, Math.PI/4, forearm, clawLen*/);//PUT IN PARAMS
     //ALL ATTRIBUTES
   /*
   CONSTANTS:
@@ -30,9 +30,7 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
 
 
     //private double servo0ValShift;//...No need! we can set these manually! still, a deadzone
-    private Servo elbow;  //ML pls replace
-    private Servo wrist;  //ML replace pls
-    private DcMotorEx beltMotor;  //ML replace
+    //elbows,lifts, wrists all ML.
     private final double servoDeadMin = 0; //WAS: 500 //I have these set at pwm values 500,2500
     private final double servoDeadMax = 1; //WAS: 2500
     private final double pwmToRadPhase = 0; //UNNECCECARY //so the values are read 0-2000 [applied before scalar]
@@ -64,7 +62,12 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
     //get methods (from driver to clawKin)
     public ClawConverter()
     {
-        //empty constructor
+        scuff = new ClawKin();
+        //empty constructor to keep it okay being empty
+    }
+    public ClawConverter(double lambda, double h, double dSum, double phi, double forearm, double clawLen)
+    {
+        scuff = new ClawKin(lambda, h, dSum, Math.PI/4, forearm, clawLen);
     }
     private double getSrvRad(Servo servo) //Converts pwm signal input to radian angle value output
     {
@@ -84,7 +87,7 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
 
     private void driverToKinPos()//currently made for all of 'elbows, wrists, belt(motors)
     {
-        scuff.storeClawPos(getSrvRad(elbow),getSrvRad(wrist),getBelt(beltMotor));//can be returned as position if needed
+        scuff.storeClawPos(getSrvRad(ML.elbow),getSrvRad(ML.wrist),getBelt(ML.lift));//can be returned as position if needed
     }
 
     private void getPrimeReg(double stickHoriz, double stickVert)//stickHoriz&stickVert will be based upon direction of joystick
@@ -118,7 +121,7 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
         if(forceSetWrist < 0)
         {
             forceSetWrist = desiredPos;
-            double wristAnchor = wrist.getPosition();
+            double wristAnchor = ML.wrist.getPosition();
             if(wristAnchor>forceSetWrist)
             {
                 forcePositivity = false;
@@ -127,13 +130,13 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
             {
                 forcePositivity = true;
             }
-            wrist.setPosition(forceSetWrist);//methodDNE
+            ML.wrist.setPosition(forceSetWrist);//methodDNE
         }
     }
 
     private void checkForceWrist () //desired Pos should probably be set in pwm val (500-2500)
     {
-        double distFrom = wrist.getPosition() - forceSetWrist;//assuming PWM
+        double distFrom = ML.wrist.getPosition() - forceSetWrist;//assuming PWM
         double laxBarrier = 0.0025; //was 5 in pwm, I divided
         //true means anchor < ideal posit, false means anchor > ideal pos
         if((forcePositivity && (distFrom > -1*laxBarrier))||(!(forcePositivity) && (distFrom < laxBarrier)))
@@ -157,7 +160,7 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
             {
                 bucket = invSrvRad(scuff.wristFlatAngle());
             }
-            wrist.setPosition(bucket);//methodDNE
+            ML.wrist.setPosition(bucket);//methodDNE
         }
     }
     //ACTUAL PUBLIC------------------^
@@ -168,18 +171,18 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
         if(forceSetWrist < 0)
         {
             //wrist
-            double idealWristPwm = wrist.getPosition() + invSrvRad(wMan - thetaP);//Currently set for negativeWirsts (same servo initialisation direction) //MethodDNE
-            wrist.setPosition(idealWristPwm);
+            double idealWristPwm = ML.wrist.getPosition() + invSrvRad(wMan - thetaP);//Currently set for negativeWirsts (same servo initialisation direction) //MethodDNE
+            ML.wrist.setPosition(idealWristPwm);
         }
     /*else
     {
        wrist.setPosition(forceSetWrist);//Is it an issue if I repeatedly call set position to the same spot? //MethodDNE
     }*/
         //elbow
-        double idealElbowPwm = elbow.getPosition() + invSrvRad(thetaP);
-        elbow.setPosition(idealElbowPwm);
+        double idealElbowPwm = ML.elbow.getPosition() + invSrvRad(thetaP);
+        ML.elbow.setPosition(idealElbowPwm);
         //belt
-        beltMotor.setVelocity(bP/radToBeltScal, AngleUnit.RADIANS);
+        ML.lift.setVelocity(bP/radToBeltScal, AngleUnit.RADIANS);
     }
   /*
 

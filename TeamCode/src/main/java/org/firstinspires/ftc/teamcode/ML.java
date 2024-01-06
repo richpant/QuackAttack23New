@@ -22,8 +22,8 @@ public class ML
     public static CRServo rotate;
     public static Servo clawL;
     public static Servo clawR;
-    public static Servo arm1;
-    public static Servo arm2;
+    public static Servo elbow;
+    public static Servo wrist;
     public static double pi = Math.PI;
     public static double π = pi;
     // π = alt + 227
@@ -42,6 +42,10 @@ public class ML
 
         arm = myOpMode.hardwareMap.get(DcMotorEx.class,"arm");
         rotate = myOpMode.hardwareMap.get(CRServo.class,"rotate");
+        elbow = myOpMode.hardwareMap.get(Servo.class,"elbow");
+        wrist = myOpMode.hardwareMap.get(Servo.class,"wrist");
+        clawL = myOpMode.hardwareMap.get(Servo.class,"clawL");
+        clawR = myOpMode.hardwareMap.get(Servo.class,"clawR");
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -49,6 +53,7 @@ public class ML
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
     public void iauto() {

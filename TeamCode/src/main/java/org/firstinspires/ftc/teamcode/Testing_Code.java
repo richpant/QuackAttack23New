@@ -17,11 +17,26 @@ public class Testing_Code extends LinearOpMode {
         ml.init();
         ml.iTeleOp();
 
+        ML.elbow.setPosition(.66);//.67
+        ML.wrist.setPosition(.55);//.49
+        ML.clawL.setPosition(.5);
+        ML.clawR.setPosition(.5);
+        ML.rotate.setPower(0.1);
+
         telemetry.addData("Say", "Hello Driver");
+
 
         waitForStart();
 
         while (opModeIsActive()) {
+
+            telemetry.addData("elbow: ", ML.elbow.getPosition());
+            telemetry.addData("wrist: ", ML.wrist.getPosition());
+            telemetry.addData("clawL: ", ML.clawL.getPosition());
+            telemetry.addData("clawR: ", ML.clawR.getPosition());
+            //telemetry.addData("rotate: ", ML.rotate.getPosition());
+            telemetry.update();
+
             double y = -(1.4142135624 * gamepad1.left_stick_y) /2;
             double x = -(1.4142135624 * gamepad1.left_stick_x) /2;
             double s = -gamepad1.right_stick_x;
@@ -36,12 +51,15 @@ public class Testing_Code extends LinearOpMode {
                 ML.intake.setPower(0);
             }
 
-            if (gamepad1.dpad_up) {
+            if (gamepad1.dpad_up || gamepad2.dpad_up) {
                 ML.lift.setPower(.6);
-            } else if (gamepad1.dpad_down) {
+                ML.clawL.setPosition(.33);
+                ML.clawR.setPosition(.67);
+
+            } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
                 ML.lift.setPower(-.6);
             } else {
-            ML.lift.setPower(0);
+                ML.lift.setPower(0);
             }
 
             if (gamepad1.a) {
@@ -53,32 +71,28 @@ public class Testing_Code extends LinearOpMode {
             }
 
             if (gamepad1.x) {
-                ML.rotate.setPower(.53);
+                ML.rotate.setPower(0.1);//horizontal
             }
             else if (gamepad1.y) {
-                ML.rotate.setPower(.08);
+                ML.rotate.setPower(0.44);//vertical
             }
 
             if (gamepad2.a) {
-                ML.clawL.setPosition(.7);
-            } else {
-                ML.clawL.setPosition(.3);
+                ML.clawL.setPosition(.33);//clawL     in
+                ML.clawR.setPosition(.67);
             }
             if(gamepad2.b) {
-                ML.clawR.setPosition(.7);
-            } else {
-                ML.clawR.setPosition(.3);
+                ML.clawL.setPosition(.5);
+                ML.clawR.setPosition(.5);//clawR     out
             }
 
             if (gamepad2.x) {
-                ML.arm1.setPosition(.7);
-            } else {
-                ML.arm1.setPosition(.3);
+                ML.elbow.setPosition(.66);
+                ML.wrist.setPosition(.55);
             }
             if (gamepad2.y) {
-                ML.arm2.setPosition(.7);
-            } else {
-                ML.arm2.setPosition(.3);
+                ML.elbow.setPosition(.50);
+                ML.wrist.setPosition(.40);
             }
         /*
         if (gamepad1.b) {
@@ -90,26 +104,26 @@ public class Testing_Code extends LinearOpMode {
         }
 
         if (gamepad1.x) {
-            arm1.setPower(.1);
-            arm2.setPower(-.1);
+            elbow.setPower(.1);
+            wrist.setPower(-.1);
         } else if (gamepad1.y) {
-            arm1.setPower(-.1);
-            arm2.setPower(.1);
+            elbow.setPower(-.1);
+            wrist.setPower(.1);
         } else if (gamepad1.dpad_left) {
-            arm1.setPower(.1);
-            arm2.setPower(0);
+            elbow.setPower(.1);
+            wrist.setPower(0);
         } else if (gamepad1.dpad_right) {
-            arm1.setPower(-.1);
-            arm2.setPower(0);
+            elbow.setPower(-.1);
+            wrist.setPower(0);
         } else if (gamepad1.left_bumper) {
-            arm1.setPower(0);
-            arm2.setPower(.1);
+            elbow.setPower(0);
+            wrist.setPower(.1);
         } else if (gamepad1.right_bumper) {
-            arm1.setPower(0);
-            arm2.setPower(-.1);
+            elbow.setPower(0);
+            wrist.setPower(-.1);
         }else {
-            arm1.setPower(0);
-            arm2.setPower(0);
+            elbow.setPower(0);
+            wrist.setPower(0);
         }
          */
         }
