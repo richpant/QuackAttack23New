@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp(name = "Testing Code")
-public class Testing_Code extends LinearOpMode {
+@TeleOp(name = "Drive")
+public class Drive extends LinearOpMode {
 
     ML ml = new ML(this);
+    int distance = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,6 +24,8 @@ public class Testing_Code extends LinearOpMode {
         ML.clawL.setPosition(.5);
         ML.clawR.setPosition(.5);
         ML.rotate.setPower(0.1);
+        ML.lift.setTargetPosition(0);
+        ML.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addData("Say", "Hello Driver");
 
@@ -30,10 +34,13 @@ public class Testing_Code extends LinearOpMode {
 
         while (opModeIsActive()) {
 
+
             telemetry.addData("elbow: ", ML.elbow.getPosition());
 
             telemetry.addData("clawL: ", ML.clawL.getPosition());
             telemetry.addData("clawR: ", ML.clawR.getPosition());
+            telemetry.addData("lift: ", ML.lift.getCurrentPosition());
+            telemetry.addData("distance: ", distance);
             //telemetry.addData("rotate: ", ML.rotate.getPosition());
             telemetry.update();
 
@@ -43,18 +50,27 @@ public class Testing_Code extends LinearOpMode {
 
             ML.drive(y,x,s);
 
-
+            ML.lift.setPower(.6);
 
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
-                ML.lift.setPower(.6);
+                distance += 10;
+
                 ML.clawL.setPosition(.33);
                 ML.clawR.setPosition(.67);
-
             } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
-                ML.lift.setPower(-.6);
+                distance -= 10;
+
             } else {
-                ML.lift.setPower(0);
+                distance = ML.lift.getCurrentPosition();
+
             }
+            if (distance < 0) {
+                distance = 0;
+            }
+            if (distance > 2500) {
+                distance = 2500;
+            }
+            ML.lift.setTargetPosition(distance);
 
             if (gamepad1.a) {
                 ML.arm.setPower(1);
@@ -71,13 +87,13 @@ public class Testing_Code extends LinearOpMode {
                 ML.rotate.setPower(0.44);//vertical
             }
 
-            if (gamepad2.a) {
+            if (gamepad2.left_bumper) {
                 ML.clawL.setPosition(.33);//clawL     in
                 ML.clawR.setPosition(.67);
             }
-            if(gamepad2.b) {
+            if(gamepad2.right_bumper) {
                 ML.clawL.setPosition(.5);
-                ML.clawR.setPosition(.5);//clawR     out
+                ML.clawR.setPosition(.5);//clawR     out     i like me
             }
 
             if (gamepad2.x) {
@@ -86,6 +102,10 @@ public class Testing_Code extends LinearOpMode {
             if (gamepad2.y) {
                 ML.elbow.setPosition(.52);
             }
+            if (gamepad2.a) {
+                ML.elbow.setPosition(25);
+            }
+
         /*
         if (gamepad1.b) {
             clawL.setPosition(.45);

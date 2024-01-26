@@ -50,9 +50,9 @@ public class Auto extends LinearOpMode {
 
         ML.forward(2000);
         sleep(1000);
-        ML.Intake(-1);
+        //ML.Intake(-1);
         sleep(1000);
-        ML.Intake(0);
+        //ML.Intake(0);
         sleep(200);
         ML.forward(500);
     }

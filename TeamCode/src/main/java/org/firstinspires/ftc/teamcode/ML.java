@@ -16,14 +16,14 @@ public class ML
     public static DcMotorEx rightRear;
     public static DcMotorEx leftFront;
     public static DcMotorEx leftRear;
-    public static DcMotorEx intake;
+
     public static DcMotorEx lift;
     public static DcMotorEx arm;
     public static CRServo rotate;
     public static Servo clawL;
     public static Servo clawR;
     public static Servo elbow;
-    public static Servo wrist;
+
     public static double pi = Math.PI;
     public static double π = pi;
     // π = alt + 227
@@ -37,13 +37,11 @@ public class ML
         leftRear = myOpMode.hardwareMap.get(DcMotorEx.class,"leftRear");
         rightFront = myOpMode.hardwareMap.get(DcMotorEx.class,"rightFront");
         rightRear = myOpMode.hardwareMap.get(DcMotorEx.class,"rightRear");
-        intake = myOpMode.hardwareMap.get(DcMotorEx.class,"intake");
         lift = myOpMode.hardwareMap.get(DcMotorEx.class,"lift");
 
         arm = myOpMode.hardwareMap.get(DcMotorEx.class,"arm");
         rotate = myOpMode.hardwareMap.get(CRServo.class,"rotate");
         elbow = myOpMode.hardwareMap.get(Servo.class,"elbow");
-        wrist = myOpMode.hardwareMap.get(Servo.class,"wrist");
         clawL = myOpMode.hardwareMap.get(Servo.class,"clawL");
         clawR = myOpMode.hardwareMap.get(Servo.class,"clawR");
 
@@ -51,7 +49,6 @@ public class ML
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -66,12 +63,17 @@ public class ML
         leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void iTeleOp() {
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public static void drive(double y, double x, double s) {
@@ -135,7 +137,5 @@ public class ML
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public static void Intake(int p) {
-        intake.setPower(p);
-    }
+
 }

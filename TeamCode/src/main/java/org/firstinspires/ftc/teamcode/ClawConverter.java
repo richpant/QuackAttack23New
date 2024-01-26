@@ -87,7 +87,7 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
 
     private void driverToKinPos()//currently made for all of 'elbows, wrists, belt(motors)
     {
-        scuff.storeClawPos(getSrvRad(ML.elbow),getSrvRad(ML.wrist),getBelt(ML.lift));//can be returned as position if needed
+        //scuff.storeClawPos(getSrvRad(ML.elbow),getSrvRad(ML.wrist),getBelt(ML.lift));//can be returned as position if needed
     }
 
     private void getPrimeReg(double stickHoriz, double stickVert)//stickHoriz&stickVert will be based upon direction of joystick
@@ -121,25 +121,25 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
         if(forceSetWrist < 0)
         {
             forceSetWrist = desiredPos;
-            double wristAnchor = ML.wrist.getPosition();
-            if(wristAnchor>forceSetWrist)
+            //double wristAnchor = ML.wrist.getPosition();
+            //if(wristAnchor>forceSetWrist)
             {
                 forcePositivity = false;
             }
-            else
+            //else
             {
                 forcePositivity = true;
             }
-            ML.wrist.setPosition(forceSetWrist);//methodDNE
+            //ML.wrist.setPosition(forceSetWrist);//methodDNE
         }
     }
 
     private void checkForceWrist () //desired Pos should probably be set in pwm val (500-2500)
     {
-        double distFrom = ML.wrist.getPosition() - forceSetWrist;//assuming PWM
+        //double distFrom = ML.wrist.getPosition() - forceSetWrist;//assuming PWM
         double laxBarrier = 0.0025; //was 5 in pwm, I divided
         //true means anchor < ideal posit, false means anchor > ideal pos
-        if((forcePositivity && (distFrom > -1*laxBarrier))||(!(forcePositivity) && (distFrom < laxBarrier)))
+        //if((forcePositivity && (distFrom > -1*laxBarrier))||(!(forcePositivity) && (distFrom < laxBarrier)))
         {
             forceSetWrist = -1;
         }
@@ -160,7 +160,7 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
             {
                 bucket = invSrvRad(scuff.wristFlatAngle());
             }
-            ML.wrist.setPosition(bucket);//methodDNE
+            //ML.wrist.setPosition(bucket);//methodDNE
         }
     }
     //ACTUAL PUBLIC------------------^
@@ -171,8 +171,8 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
         if(forceSetWrist < 0)
         {
             //wrist
-            double idealWristPwm = ML.wrist.getPosition() + invSrvRad(wMan - thetaP);//Currently set for negativeWirsts (same servo initialisation direction) //MethodDNE
-            ML.wrist.setPosition(idealWristPwm);
+            //double idealWristPwm = ML.wrist.getPosition() + invSrvRad(wMan - thetaP);//Currently set for negativeWirsts (same servo initialisation direction) //MethodDNE
+            //ML.wrist.setPosition(idealWristPwm);
         }
     /*else
     {

@@ -26,7 +26,7 @@ public class proto_arm extends LinearOpMode {
         ml.init();
         ml.iTeleOp();
         ML.elbow.setPosition(.66);//.67
-        ML.wrist.setPosition(.55);//.49
+        //ML.wrist.setPosition(.55);//.49
         ML.clawL.setPosition(.5);
         ML.clawR.setPosition(.5);
         ML.rotate.setPower(0.1);
@@ -53,7 +53,7 @@ public class proto_arm extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("elbow: ", ML.elbow.getPosition());
-            telemetry.addData("wrist: ", ML.wrist.getPosition());
+            //telemetry.addData("wrist: ", ML.wrist.getPosition());
             telemetry.addData("clawL: ", ML.clawL.getPosition());
             telemetry.addData("clawR: ", ML.clawR.getPosition());
             //telemetry.addData("rotate: ", ML.rotate.getPosition());
@@ -69,11 +69,11 @@ public class proto_arm extends LinearOpMode {
             ML.drive(y, x, s);
 
             if (gamepad1.left_bumper) {
-                ML.intake.setPower(1);
+                //ML.intake.setPower(1);
             } else if (gamepad1.right_bumper) {
-                ML.intake.setPower(-1);
+                //ML.intake.setPower(-1);
             } else {
-                ML.intake.setPower(0);
+                //ML.intake.setPower(0);
             }
 
             if (gamepad1.a) {

@@ -45,10 +45,14 @@ import java.util.concurrent.TimeUnit;
 @Autonomous (name = "Auto Blue Far")
 public class AutoBlueFar extends LinearOpMode {
     private HuskyLens huskyLens;
+    private ML ml = new ML(this);
 
     @Override
     public void runOpMode() throws InterruptedException {
-        final int pi = 800;
+        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+        ml.init();
+        ml.iauto();
+        final int pi = 2;
         final int a = 1000;
         final int b = 200;
         final int take = 1000;
@@ -98,20 +102,20 @@ public class AutoBlueFar extends LinearOpMode {
 
             waitForStart();
             ML.forward(a);
-            ML.turn(pi / 2);
+            ML.turn(1 );
             //insert camera code HERE
             if (cameraOutcome == 3) {
                 ML.turn(pi / 2);
             }
             if (cameraOutcome == 2 || cameraOutcome == 3) {
-                ML.Intake(take);
+                //ML.Intake(take);
             }
             if (cameraOutcome == 1 || cameraOutcome == 2) {
                 ML.turn(pi / 2);
             }
             ML.move(-1 * a, 0);
             if (cameraOutcome == 1) {
-                ML.Intake(take);
+                //ML.Intake(take);
             }
             //The following segment is to be INCLUDED if we start far from the backdrop, but EXCLUDED if we start near it
             ML.forward(-2 * a);
