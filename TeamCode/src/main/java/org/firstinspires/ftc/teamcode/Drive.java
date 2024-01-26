@@ -102,7 +102,7 @@ public class Drive extends LinearOpMode {
             if (gamepad2.y) {
                 ML.elbow.setPosition(.52);
             }
-            if (gamepad2.a) {
+            if (gamepad2.b) {
                 ML.elbow.setPosition(25);
             }
 
