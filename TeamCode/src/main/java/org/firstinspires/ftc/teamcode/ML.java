@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -51,6 +53,13 @@ public class ML
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
         arm.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        elbow.setPosition(.52);//.67
+        clawL.setPosition(.5);
+        clawR.setPosition(.5);
+        rotate.setPower(0.1);
+        lift.setTargetPosition(0);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     }
     public void iauto() {
@@ -127,6 +136,7 @@ public class ML
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while ( leftRear.getCurrentPosition() != d) {
+            //telemetry.addData("LF: ", leftFront.getCurrentPosition());
         }
         leftFront.setPower(0);
         leftRear.setPower(0);

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Outline of proposed autonomous redesign
@@ -48,13 +49,16 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
 
-        ML.forward(2000);
+        ML.forward(500); //2000
+        sleep(1000);
+        ML.move(400, 2);
+        //ML.turn(1);
         sleep(1000);
         //ML.Intake(-1);
-        sleep(1000);
+        //sleep(1000);
         //ML.Intake(0);
-        sleep(200);
-        ML.forward(500);
+        //sleep(200);
+        //ML.forward(500);
     }
 
 }

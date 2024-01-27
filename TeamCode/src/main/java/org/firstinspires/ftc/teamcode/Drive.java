@@ -20,7 +20,6 @@ public class Drive extends LinearOpMode {
         ml.iTeleOp();
 
         ML.elbow.setPosition(.52);//.67
-
         ML.clawL.setPosition(.5);
         ML.clawR.setPosition(.5);
         ML.rotate.setPower(0.1);
@@ -50,19 +49,12 @@ public class Drive extends LinearOpMode {
 
             ML.drive(y,x,s);
 
-            ML.lift.setPower(.6);
-
             if (gamepad1.dpad_up || gamepad2.dpad_up) {
                 distance += 10;
-
                 ML.clawL.setPosition(.33);
                 ML.clawR.setPosition(.67);
             } else if (gamepad1.dpad_down || gamepad2.dpad_down) {
                 distance -= 10;
-
-            } else {
-                distance = ML.lift.getCurrentPosition();
-
             }
             if (distance < 0) {
                 distance = 0;
@@ -70,8 +62,13 @@ public class Drive extends LinearOpMode {
             if (distance > 2500) {
                 distance = 2500;
             }
-            ML.lift.setTargetPosition(distance);
 
+            ML.lift.setTargetPosition(distance);
+            if (ML.lift.getCurrentPosition() < 10 && ML.lift.getTargetPosition() < 10) {
+                ML.lift.setPower(0);
+            } else {
+                ML.lift.setPower(1);
+            }
             if (gamepad1.a) {
                 ML.arm.setPower(1);
             } else if(gamepad1.b) {
@@ -87,11 +84,11 @@ public class Drive extends LinearOpMode {
                 ML.rotate.setPower(0.44);//vertical
             }
 
-            if (gamepad2.left_bumper) {
+            if (gamepad2.left_bumper || gamepad1.left_bumper) {
                 ML.clawL.setPosition(.33);//clawL     in
                 ML.clawR.setPosition(.67);
             }
-            if(gamepad2.right_bumper) {
+            if(gamepad2.right_bumper || gamepad1.right_bumper) {
                 ML.clawL.setPosition(.5);
                 ML.clawR.setPosition(.5);//clawR     out     i like me
             }
@@ -103,41 +100,18 @@ public class Drive extends LinearOpMode {
                 ML.elbow.setPosition(.52);
             }
             if (gamepad2.b) {
-                ML.elbow.setPosition(25);
+                ML.elbow.setPosition(.25);
+                ML.clawL.setPosition(.33);
+                ML.clawR.setPosition(.67);
+                distance = 2000;
+            }
+            if (gamepad2.a) {
+                ML.elbow.setPosition(.52);
+                ML.clawL.setPosition(.33);
+                ML.clawR.setPosition(.67);
+                distance = 0;
             }
 
-        /*
-        if (gamepad1.b) {
-            clawL.setPosition(.45);
-            clawR.setPosition(.55);
-        } else {
-            clawL.setPosition(.5);
-            clawR.setPosition(.5);
-        }
-
-        if (gamepad1.x) {
-            elbow.setPower(.1);
-            wrist.setPower(-.1);
-        } else if (gamepad1.y) {
-            elbow.setPower(-.1);
-            wrist.setPower(.1);
-        } else if (gamepad1.dpad_left) {
-            elbow.setPower(.1);
-            wrist.setPower(0);
-        } else if (gamepad1.dpad_right) {
-            elbow.setPower(-.1);
-            wrist.setPower(0);
-        } else if (gamepad1.left_bumper) {
-            elbow.setPower(0);
-            wrist.setPower(.1);
-        } else if (gamepad1.right_bumper) {
-            elbow.setPower(0);
-            wrist.setPower(-.1);
-        }else {
-            elbow.setPower(0);
-            wrist.setPower(0);
-        }
-         */
         }
     }
 }
