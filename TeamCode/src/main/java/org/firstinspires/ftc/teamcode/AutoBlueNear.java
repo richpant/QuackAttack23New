@@ -52,8 +52,8 @@ public class AutoBlueNear extends LinearOpMode {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
         ml.init();
         ml.iauto();
-        final int pi = 2;
-        final int a = 1000;
+        final int turns = 1;
+        final int a = 1200;
         final int b = 200;
         final int take = 1000;
         int cameraOutcome = 0;
@@ -73,11 +73,13 @@ public class AutoBlueNear extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        while (opModeIsActive()) {
+        //while (opModeIsActive()) {
 
-            if (!rateLimit.hasExpired()) {
+            ML.lift.setTargetPosition(200);
+
+            /*if (!rateLimit.hasExpired()) {
                 continue;
-            }
+            }*/
             rateLimit.reset();// from huskylens
             HuskyLens.Block[] blocks = huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
@@ -86,36 +88,43 @@ public class AutoBlueNear extends LinearOpMode {
                 telemetry.addData("location?", blocks[i].x);// this gives you just x
                 //TODO ensure your x values of the husky lens are appropriate to the desired areas
                 //----------------------------1----------------------------\\
-                if (blocks[i].x < 100) {
+                if (blocks[i].x < 50) {
                     telemetry.addLine("Through careful calculations, we have concluded Area 1");
                     cameraOutcome = 1;
                 }
-                if (blocks[i].x > 100 && blocks[i].x < 200) {
+                else if (blocks[i].x > 50 && blocks[i].x < 200) {
                     telemetry.addLine("Through careful calculations, we have concluded Area 2");
                     cameraOutcome = 2;
                 }
-                if (blocks[i].x > 210) {
+                else if (blocks[i].x > 210) {
                     telemetry.addLine("Through careful calculations, we have concluded Area 3");
                     cameraOutcome = 3;
+                }
+                else {
+                    telemetry.addLine("GUESSING Area 1.");
+                    cameraOutcome = 1;
                 }
             }
 
             waitForStart();
             ML.forward(a);
-            ML.turn(pi / 2);
+            //ML.turn(turns);
+            telemetry.update();
             //insert camera code HERE
             if (cameraOutcome == 3) {
-                ML.turn(pi / 2);
+                ML.turn(turns);
             }
             if (cameraOutcome == 2 || cameraOutcome == 3) {
                 //ML.Intake(take);
+                ML.clawL.setPosition(.5);
             }
             if (cameraOutcome == 1 || cameraOutcome == 2) {
-                ML.turn(pi / 2);
+                ML.turn(turns);
             }
-            ML.move(-1 * a, 0);
+            ML.move(a, 0);
             if (cameraOutcome == 1) {
                 //ML.Intake(take);
+                ML.clawL.setPosition(.5);
             }
             //The following segment is to be INCLUDED if we start far from the backdrop, but EXCLUDED if we start near it
             /*ML.forward(-2*a);*/
@@ -127,8 +136,8 @@ public class AutoBlueNear extends LinearOpMode {
             }
             /** code for extending arm/opening claw here */
             //if this is the far code, do nothing. if it is the near code, parkout and move to the edge of the field.
-            ML.turn(pi / 2);
+            ML.turn(turns);
             ML.move(a, 0);
-        }
+        //}
     }
 }

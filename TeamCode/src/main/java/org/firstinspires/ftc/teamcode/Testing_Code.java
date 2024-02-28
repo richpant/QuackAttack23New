@@ -17,11 +17,11 @@ public class Testing_Code extends LinearOpMode {
         ml.init();
         ml.iTeleOp();
 
-        ML.elbow.setPosition(.52);//.67
+        //ML.elbow.setPosition(.52);//.67
 
         ML.clawL.setPosition(.5);
         ML.clawR.setPosition(.5);
-        ML.rotate.setPower(0.1);
+        //ML.rotate.setPower(0.1);
 
         telemetry.addData("Say", "Hello Driver");
 
@@ -30,7 +30,7 @@ public class Testing_Code extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            telemetry.addData("elbow: ", ML.elbow.getPosition());
+            //telemetry.addData("elbow: ", ML.elbow.getPosition());
 
             telemetry.addData("clawL: ", ML.clawL.getPosition());
             telemetry.addData("clawR: ", ML.clawR.getPosition());
@@ -56,20 +56,7 @@ public class Testing_Code extends LinearOpMode {
                 ML.lift.setPower(0);
             }
 
-            if (gamepad1.a) {
-                ML.arm.setPower(1);
-            } else if(gamepad1.b) {
-                ML.arm.setPower(-1);
-            } else {
-                ML.arm.setPower(0);
-            }
 
-            if (gamepad1.x) {
-                ML.rotate.setPower(0.1);//horizontal
-            }
-            else if (gamepad1.y) {
-                ML.rotate.setPower(0.44);//vertical
-            }
 
             if (gamepad2.a) {
                 ML.clawL.setPosition(.33);//clawL     in
@@ -80,12 +67,7 @@ public class Testing_Code extends LinearOpMode {
                 ML.clawR.setPosition(.5);//clawR     out
             }
 
-            if (gamepad2.x) {
-                ML.elbow.setPosition(.25);
-            }
-            if (gamepad2.y) {
-                ML.elbow.setPosition(.52);
-            }
+
         /*
         if (gamepad1.b) {
             clawL.setPosition(.45);

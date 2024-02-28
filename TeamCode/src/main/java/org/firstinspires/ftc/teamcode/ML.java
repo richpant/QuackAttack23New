@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+
 public class ML
 {
 
@@ -20,14 +22,16 @@ public class ML
     public static DcMotorEx leftRear;
 
     public static DcMotorEx lift;
-    public static DcMotorEx arm;
-    public static CRServo rotate;
+
     public static Servo clawL;
     public static Servo clawR;
-    public static Servo elbow;
+    public static DcMotorEx elbow;
+    public static Servo wrist;
+    public static Servo plane;
 
-    public static double pi = Math.PI;
-    public static double π = pi;
+    public static final double pi = Math.PI;
+    public static final double π = pi;
+    public static final double wPrime = Math.pow(2,-0.5) - Math.pow(6,-0.5);//2^(-1/2) - 6^(-1/2)
     // π = alt + 227
 
 
@@ -40,26 +44,28 @@ public class ML
         rightFront = myOpMode.hardwareMap.get(DcMotorEx.class,"rightFront");
         rightRear = myOpMode.hardwareMap.get(DcMotorEx.class,"rightRear");
         lift = myOpMode.hardwareMap.get(DcMotorEx.class,"lift");
+        elbow = myOpMode.hardwareMap.get(DcMotorEx.class,"elbow");
 
-        arm = myOpMode.hardwareMap.get(DcMotorEx.class,"arm");
-        rotate = myOpMode.hardwareMap.get(CRServo.class,"rotate");
-        elbow = myOpMode.hardwareMap.get(Servo.class,"elbow");
+        wrist = myOpMode.hardwareMap.get(Servo.class,"wrist");
         clawL = myOpMode.hardwareMap.get(Servo.class,"clawL");
         clawR = myOpMode.hardwareMap.get(Servo.class,"clawR");
+        plane = myOpMode.hardwareMap.get(Servo.class,"plane");
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
-        arm.setDirection(DcMotorSimple.Direction.FORWARD);
+        elbow.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        elbow.setPosition(.52);//.67
-        clawL.setPosition(.5);
-        clawR.setPosition(.5);
-        rotate.setPower(0.1);
+        wrist.setPosition(0.33);
+        clawL.setPosition(.33);
+        clawR.setPosition(.67);
+        plane.setPosition(0.5);
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        elbow.setTargetPosition(0);
+        elbow.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     }
     public void iauto() {
@@ -67,13 +73,15 @@ public class ML
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void iTeleOp() {
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -83,6 +91,8 @@ public class ML
 
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        elbow.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public static void drive(double y, double x, double s) {
@@ -102,7 +112,7 @@ public class ML
     }
     public static void turn(double n)
     {
-        move((int)(400*n), 2); //Widdershins
+        move((int)(1100*n), 2); //Widdershins
     }
     public static void move(int d, int mode) {
         leftFront.setPower(.4);
@@ -135,7 +145,7 @@ public class ML
         leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while ( leftRear.getCurrentPosition() != d) {
+        while ( rightFront.getCurrentPosition() != d) {
             //telemetry.addData("LF: ", leftFront.getCurrentPosition());
         }
         leftFront.setPower(0);
@@ -146,6 +156,15 @@ public class ML
         leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    //forgive me, this is [Cu]
+    public static void aimWithOutWrist (double wheelDelta, double liftDelta, double inputLift, double y, double x, double s) //wheelDelta in rads
+    {
+        //effectively, this should convert physical movement in wheels to that of the belt movement
+        //toggle to allow 'up down' w/respect to board to cause wheel movement
+        drive(y - wPrime * inputLift * wheelDelta, x,s);
+        lift.setVelocity(inputLift * liftDelta, AngleUnit.RADIANS);
+
     }
 
 }

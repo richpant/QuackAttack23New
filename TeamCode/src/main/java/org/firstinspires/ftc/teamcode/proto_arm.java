@@ -25,11 +25,10 @@ public class proto_arm extends LinearOpMode {
         //clawR.setPosition(.5);
         ml.init();
         ml.iTeleOp();
-        ML.elbow.setPosition(.66);//.67
+        ML.elbow.setTargetPosition(0);//.67
         //ML.wrist.setPosition(.55);//.49
         ML.clawL.setPosition(.5);
         ML.clawR.setPosition(.5);
-        ML.rotate.setPower(0.1);
 
         telemetry.addData("Say", "Hello Driver");
 
@@ -52,7 +51,7 @@ public class proto_arm extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            telemetry.addData("elbow: ", ML.elbow.getPosition());
+            telemetry.addData("elbow: ", ML.elbow.getCurrentPosition());
             //telemetry.addData("wrist: ", ML.wrist.getPosition());
             telemetry.addData("clawL: ", ML.clawL.getPosition());
             telemetry.addData("clawR: ", ML.clawR.getPosition());
@@ -76,19 +75,7 @@ public class proto_arm extends LinearOpMode {
                 //ML.intake.setPower(0);
             }
 
-            if (gamepad1.a) {
-                ML.arm.setPower(1);
-            } else if (gamepad1.b) {
-                ML.arm.setPower(-1);
-            } else {
-                ML.arm.setPower(0);
-            }
 
-            if (gamepad1.x) {
-                ML.rotate.setPower(.1);
-            } else if (gamepad1.y) {
-                ML.rotate.setPower(.44);
-            }
 
             // ###### levels wrist (assumes no protruding claw)
             if (gamepad2.left_bumper)

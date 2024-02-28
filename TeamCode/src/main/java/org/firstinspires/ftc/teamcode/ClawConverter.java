@@ -30,7 +30,7 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
 
 
     //private double servo0ValShift;//...No need! we can set these manually! still, a deadzone
-    //elbows,lifts, wrists all ML.
+    //elbows,lifts, wrists all ML. ###### NOTE! it appears someone has commented out all mentions of 'wrist,' change this once wrist returns
     private final double servoDeadMin = 0; //WAS: 500 //I have these set at pwm values 500,2500
     private final double servoDeadMax = 1; //WAS: 2500
     private final double pwmToRadPhase = 0; //UNNECCECARY //so the values are read 0-2000 [applied before scalar]
@@ -179,8 +179,8 @@ public class ClawConverter //This will F up in jGrasp, needs to be executed in A
        wrist.setPosition(forceSetWrist);//Is it an issue if I repeatedly call set position to the same spot? //MethodDNE
     }*/
         //elbow
-        double idealElbowPwm = ML.elbow.getPosition() + invSrvRad(thetaP);
-        ML.elbow.setPosition(idealElbowPwm);
+        double idealElbowPwm = ML.elbow.getTargetPosition() + invSrvRad(thetaP);
+        ML.elbow.setTargetPosition((int)idealElbowPwm);
         //belt
         ML.lift.setVelocity(bP/radToBeltScal, AngleUnit.RADIANS);
     }

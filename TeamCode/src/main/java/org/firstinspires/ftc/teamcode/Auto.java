@@ -49,10 +49,12 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
 
-        ML.forward(500); //2000
+        ML.forward(2000); //2000
         sleep(1000);
-        ML.move(400, 2);
         //ML.turn(1);
+        ML.clawL.setPosition(.33);
+        ML.clawR.setPosition(.67);
+        ML.forward(-100);
         sleep(1000);
         //ML.Intake(-1);
         //sleep(1000);
